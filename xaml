@@ -1,0 +1,28 @@
+<Flowchart DisplayName="Bank Transfer Automation">
+  <Sequence>
+    <Assign x:TypeArguments="x:String" DisplayName="Assign Source Account" To="[SourceAccount]" Value="1234567890" />
+    <Assign x:TypeArguments="x:String" DisplayName="Assign Destination Account" To="[DestinationAccount]" Value="0987654321" />
+    <Assign x:TypeArguments="x:Double" DisplayName="Assign Transfer Amount" To="[TransferAmount]" Value="1000.00" />
+    <LogMessage DisplayName="Log Start" Level="Information" Message="Starting bank transfer process..." />
+    <InvokeWorkflowFile DisplayName="Open Banking Application" FilePath="OpenBankingApplication.xaml" />
+    <DoWhile DisplayName="Check Application Availability">
+      <Not Condition="[ApplicationOpened]" />
+      <Sequence>
+        <Delay Duration="00:00:05" />
+        <LogMessage DisplayName="Log Retry" Level="Information" Message="Retrying to open banking application..." />
+        <InvokeWorkflowFile DisplayName="Open Banking Application" FilePath="OpenBankingApplication.xaml" />
+      </Sequence>
+    </DoWhile>
+    <InvokeWorkflowFile DisplayName="Login to Banking Account" FilePath="LoginToBankAccount.xaml" />
+    <InvokeWorkflowFile DisplayName="Navigate to Transfer Funds Page" FilePath="NavigateToTransferFundsPage.xaml" />
+    <InvokeWorkflowFile DisplayName="Fill Transfer Details" FilePath="FillTransferDetails.xaml">
+      <InvokeWorkflowFile.Arguments>
+        <Argument x:TypeArguments="x:String" Name="SourceAccount" Expression="[SourceAccount]" />
+        <Argument x:TypeArguments="x:String" Name="DestinationAccount" Expression="[DestinationAccount]" />
+        <Argument x:TypeArguments="x:Double" Name="TransferAmount" Expression="[TransferAmount]" />
+      </InvokeWorkflowFile.Arguments>
+    </InvokeWorkflowFile>
+    <InvokeWorkflowFile DisplayName="Confirm Transfer" FilePath="ConfirmTransfer.xaml" />
+    <LogMessage DisplayName="Log Success" Level="Information" Message="Bank transfer completed successfully!" />
+  </Sequence>
+</Flowchart>
