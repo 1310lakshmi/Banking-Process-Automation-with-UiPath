@@ -8,6 +8,9 @@ Workflow Description: The workflow consists of sequential steps to assign source
 
 # Implementation Details
 Assignments: Assign source account, destination account, and transfer amount variables with appropriate values.
+
 Logging: Log the start of the bank transfer process and retry attempts to open the banking application.
+
 Application Interaction: Open the banking application, login to the banking account, navigate to the transfer funds page, fill transfer details, and confirm the transfer.
+
 Error Handling: Use a loop to check the availability of the banking application and retry opening if not available.
